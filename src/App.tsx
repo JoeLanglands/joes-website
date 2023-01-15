@@ -1,25 +1,26 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Navbar from "./components/ui-components/navbar";
+import { ThemeProvider } from "@mui/system";
+import { Routes, Route} from "react-router-dom";
+import theme from "./theme";
+
+import Home from "./components/Home";
+import About from "./components/About";
+import Projects from "./components/Projects";
+import Footer from "./components/ui-components/footer";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      <div className="App">
+        <Navbar />
+        <Routes>
+          <Route index element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/projects" element={<Projects/>} />
+        </Routes>
+        <Footer/>
+      </div>
+    </ThemeProvider>
   );
 }
 
