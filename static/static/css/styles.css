@@ -1,0 +1,12 @@
+h1 {
+    color: #070e07;
+    border-radius: 5px;
+    padding: 5px;
+    text-align: center;
+}
+
+.hero-head {
+    background-color: #070e07;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+}
