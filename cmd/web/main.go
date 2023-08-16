@@ -9,6 +9,8 @@ import (
 	"github.com/JoeLanglands/joes-website/internal/handlers"
 )
 
+var cfg config.SiteConfig
+
 func main() {
 	jsonHandler := slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{
 		AddSource: false,
@@ -26,16 +28,17 @@ func main() {
 		},
 	})
 
-	logger := slog.New(jsonHandler)
-	cfg := &config.SiteConfig{
-		InProduction: false,
-		Logger:       logger,
-	}
+	msgChan := make(chan []byte, 5)
 
-	repo := handlers.NewRepo(cfg)
+	cfg.Logger = slog.New(jsonHandler)
+	cfg.Msg = msgChan
+
+	listenForMessages(&cfg)
+
+	repo := handlers.NewRepo(&cfg)
 	handlers.NewHandlers(repo)
 
-	mux := router()
+	mux := getRouter()
 
 	err := http.ListenAndServe(":8080", mux)
 	if err != nil {

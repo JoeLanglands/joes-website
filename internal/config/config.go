@@ -5,4 +5,5 @@ import "log/slog"
 type SiteConfig struct {
 	InProduction bool
 	Logger       *slog.Logger
+	Msg          chan []byte
 }

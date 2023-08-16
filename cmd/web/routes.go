@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/JoeLanglands/joes-website/internal/handlers"
+	"github.com/JoeLanglands/joes-website/internal/router"
 	"github.com/JoeLanglands/joes-website/static"
 )
 
@@ -16,15 +17,18 @@ func getStaticFS() http.FileSystem {
 	return http.FS(f)
 }
 
-func router() *http.ServeMux {
-
-	mux := http.NewServeMux()
+func getRouter() http.Handler {
+	mux := router.NewMux(cfg.Logger)
 	fs := getStaticFS()
 
 	fileserver := NewFileServer(http.FileServer(fs))
 
-	mux.HandleFunc("/", handlers.Repo.Home)
 	mux.Handle("/static/", fileserver)
+
+	mux.Get("/", handlers.Repo.Root)
+	mux.Get("/home", handlers.Repo.Home)
+	mux.Get("/about", handlers.Repo.About)
+	mux.Get("/projects", handlers.Repo.Projects)
 
 	return mux
 }

@@ -1,12 +1,67 @@
-h1 {
-    color: #070e07;
-    border-radius: 5px;
-    padding: 5px;
-    text-align: center;
-}
-
-.hero-head {
-    background-color: #070e07;
+.j-navbar {
+    background-color: #2b1d38;
     padding-top: 1.5rem;
     padding-bottom: 1.5rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
 }
+
+.j-title {
+    color: #54e484;
+    font-size: 3rem;
+    font-family: monospace;
+}
+
+.j-title:hover {
+    color: #ff7b00;
+    text-decoration: none;
+}
+
+.j-footer {
+    background-color: #2b1d38;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;   
+}
+
+.j-footer-text {
+    color: #54e484;
+}
+
+.j-level {
+    color: #ff7b00;
+    font-size: 1.5rem;
+    font-family: monospace;
+}
+
+.j-level-item {
+    color: #54e484;
+    padding-right: 1.5rem;
+    padding-left: 1.5rem;
+}
+
+.j-link {
+    color: #6071cc;
+}
+
+.j-link:hover {
+    color: #58c7e0;
+}
+
+.j-icon {
+    color: #ff7b00;
+    font-size: 28px;
+}
+
+.j-icon:hover {
+    color: #f92aad;
+}
+
+/* 
+"retropurplebright": #b141f1
+"retropurpledark": #2b1d38
+"retropinkbright": #f92aad
+"retrogreenbright": #54e484
+"retroorangebright": #ff7b00
+"retrobluedark": #6071cc
+"retrobluebright": #58c7e0
+*/

@@ -5,30 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HTMX & Go - Demo</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
-    <script src="https://unpkg.com/htmx.org@1.9.2" integrity="sha384-L6OqL9pRWyyFU3+/bjdSri+iIphTN/bvYyM37tICVyOJkWZLpP2vGn6VUEXgzg6h" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.2"
+        integrity="sha384-L6OqL9pRWyyFU3+/bjdSri+iIphTN/bvYyM37tICVyOJkWZLpP2vGn6VUEXgzg6h"
+        crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/static/css/styles.css">
+    <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
+
 </head>
+
 <body>
-    <nav class="navbar hero-head" role="navigation" aria-label="main navigation">
-        <div class="navbar-brand container">
-            <figure class="image is-128x128">
-                <img class="is-rounded" src="/static/images/me.jpg" alt="Me">
-            </figure>
+        {{ template "navbar" .}}
+        <div class="container hero is-fullheight-with-navbar" id="content" hx-get="/home" hx-trigger="load once">
         </div>
-    </nav>
-    <div class="container hero-body" id="content">
-        <h1>Hello</h1>
-
-    </div>
-
-    <footer class="footer hero-foot is-fixed-bottom">
-        <div class="content has-text-centered">
-            <p>
-                <strong>Written in HTMX & Go</strong>
-            </p>
-        </div>
-
-    </footer>
-    
+        
+        {{ template "footer" .}}
 </body>
+
 </html>

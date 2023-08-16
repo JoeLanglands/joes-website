@@ -25,8 +25,22 @@ func NewHandlers(r *Repository) {
 	Repo = r
 }
 
-func (repo *Repository) Home(w http.ResponseWriter, r *http.Request) {
-	// TODO doesn't like this below, you need to figure out where log goes
-	repo.cfg.Logger.Info("Home page accessed")
+func (repo *Repository) Root(w http.ResponseWriter, r *http.Request) {
 	repo.rdr.RenderTemplate(w, r, "base.gohtml", nil)
+}
+
+func (repo *Repository) Home(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodGet {
+		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+		return
+	}
+	repo.rdr.RenderComponent(w, r, "home.gohtml", nil)
+}
+
+func (repo *Repository) About(w http.ResponseWriter, r *http.Request) {
+	repo.rdr.RenderComponent(w, r, "about.gohtml", nil)
+}
+
+func (repo *Repository) Projects(w http.ResponseWriter, r *http.Request) {
+	repo.rdr.RenderComponent(w, r, "projects.gohtml", nil)
 }
