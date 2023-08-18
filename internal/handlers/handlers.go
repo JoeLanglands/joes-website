@@ -54,7 +54,7 @@ func (repo *Repository) Carousel(w http.ResponseWriter, r *http.Request) {
 	carouselState := <-repo.cfg.CarouselState
 
 	intMap := carouselState.Margin
-	intMap["delay"] = state.CarouselSeconds
+	intMap["delay"] = state.CarouselTick
 
 	repo.rdr.RenderTemplate(w, r, "carouselcontent.gohtml", &models.TemplateData{
 		StringMap: carouselState.Photo,

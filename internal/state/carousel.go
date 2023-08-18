@@ -6,7 +6,7 @@ import (
 )
 
 const (
-	CarouselSeconds = 5
+	CarouselTick = 5
 )
 
 const (
@@ -39,7 +39,7 @@ func initState() CarouselState {
 
 func Carouselhandler(stateChan chan<- CarouselState, request <-chan struct{}) {
 	state := initState()
-	ticker := time.NewTicker(CarouselSeconds * time.Second)
+	ticker := time.NewTicker(CarouselTick * time.Second)
 
 	go func() {
 		for {
