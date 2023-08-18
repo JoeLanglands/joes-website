@@ -1,0 +1,17 @@
+<div class="tile is-ancestor" hx-get="/carousel" hx-trigger="load delay:{{index .IntMap "delay"}}s" hx-swap="outerHTML">
+    <div class="tile">
+        <figure class="image mt-{{index .IntMap "photo_one"}} j-carousel-blur j-carousel-image">
+            <img src="/static/images/{{index .StringMap "photo_one"}}" alt="Me">
+        </figure>
+    </div>
+    <div class="tile">
+        <figure class="image mt-{{index .IntMap "photo_two"}} j-carousel-image">
+            <img src="/static/images/{{index .StringMap "photo_two"}}" alt="Me">
+        </figure>
+    </div>
+    <div class="tile">
+        <figure class="image mt-{{index .IntMap "photo_three"}} j-carousel-blur j-carousel-image">
+            <img src="/static/images/{{index .StringMap "photo_three"}}" alt="Me">
+        </figure>
+    </div>
+</div>

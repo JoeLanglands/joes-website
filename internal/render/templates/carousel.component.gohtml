@@ -1,0 +1,15 @@
+{{ define "carousel" }}
+<div class="message">
+    <div class="message-header j-carousel-header">
+        <span>Carousel</span>
+        <!-- <button class="delete" aria-label="delete"> -->
+        </div>
+        </div></button>
+    </div>
+    <div class="message-body j-carousel-body" >
+        <div class="tile is-ancestor" hx-get="/carousel" hx-trigger="load" hx-swap="outerHTML">
+            
+        </div>
+    </div>
+</div>
+{{ end }}

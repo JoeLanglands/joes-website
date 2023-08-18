@@ -77,9 +77,7 @@ func (m *Mux) Delete(pattern string, handler http.HandlerFunc) {
 
 func (m *Mux) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	// for _, middleware := range m.middlewares {
-	// 	mux := m.mux
-	// 	mux = middleware(mux)
-	// 	mux.ServeHTTP(w, r)
+
 	// }
 	m.mux.ServeHTTP(w, r)
 }

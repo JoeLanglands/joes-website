@@ -8,6 +8,7 @@ import (
 	"net/http"
 
 	"github.com/JoeLanglands/joes-website/internal/config"
+	"github.com/JoeLanglands/joes-website/internal/models"
 )
 
 //go:embed templates/*
@@ -21,12 +22,13 @@ func NewRenderer(cfg *config.SiteConfig) Renderer {
 	return Renderer{cfg: cfg}
 }
 
-func (rdr *Renderer) RenderTemplate(w http.ResponseWriter, r *http.Request, name string, data any) error {
+// RenderTemplateWithComponents renders the template given by name and along with all *.component.gohtml files
+func (rdr *Renderer) RenderTemplateWithComponents(w http.ResponseWriter, r *http.Request, name string, data any) error {
 	buf := new(bytes.Buffer)
 
 	nameGlob := fmt.Sprintf("templates/%s", name)
 
-	tmpl, err := template.ParseFS(fs, nameGlob, "templates/*.layout.gohtml")
+	tmpl, err := template.ParseFS(fs, nameGlob, "templates/*.component.gohtml")
 	if err != nil {
 		rdr.cfg.Logger.Error("error parsing template", "error", err)
 		return err
@@ -48,7 +50,8 @@ func (rdr *Renderer) RenderTemplate(w http.ResponseWriter, r *http.Request, name
 	return nil
 }
 
-func (rdr *Renderer) RenderComponent(w http.ResponseWriter, r *http.Request, name string, data any) error {
+// RenderTemplate renders a single template as a component to the response writer mainly for htmx elements.
+func (rdr *Renderer) RenderTemplate(w http.ResponseWriter, r *http.Request, name string, data *models.TemplateData) error {
 	buf := new(bytes.Buffer)
 
 	nameGlob := fmt.Sprintf("templates/%s", name)

@@ -4,7 +4,9 @@ import (
 	"net/http"
 
 	"github.com/JoeLanglands/joes-website/internal/config"
+	"github.com/JoeLanglands/joes-website/internal/models"
 	"github.com/JoeLanglands/joes-website/internal/render"
+	"github.com/JoeLanglands/joes-website/internal/state"
 )
 
 type Repository struct {
@@ -26,7 +28,7 @@ func NewHandlers(r *Repository) {
 }
 
 func (repo *Repository) Root(w http.ResponseWriter, r *http.Request) {
-	repo.rdr.RenderTemplate(w, r, "base.gohtml", nil)
+	repo.rdr.RenderTemplateWithComponents(w, r, "base.gohtml", nil)
 }
 
 func (repo *Repository) Home(w http.ResponseWriter, r *http.Request) {
@@ -34,13 +36,28 @@ func (repo *Repository) Home(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
 	}
-	repo.rdr.RenderComponent(w, r, "home.gohtml", nil)
+	repo.rdr.RenderTemplateWithComponents(w, r, "home.gohtml", nil)
 }
 
 func (repo *Repository) About(w http.ResponseWriter, r *http.Request) {
-	repo.rdr.RenderComponent(w, r, "about.gohtml", nil)
+	repo.rdr.RenderTemplate(w, r, "about.gohtml", nil)
 }
 
 func (repo *Repository) Projects(w http.ResponseWriter, r *http.Request) {
-	repo.rdr.RenderComponent(w, r, "projects.gohtml", nil)
+	repo.rdr.RenderTemplate(w, r, "projects.gohtml", nil)
+}
+
+func (repo *Repository) Carousel(w http.ResponseWriter, r *http.Request) {
+	repo.cfg.RequestState <- struct{}{}
+
+	// copying the sync.RWMutex here but we're not touching it after here so maybe its ok?
+	carouselState := <-repo.cfg.CarouselState
+
+	intMap := carouselState.Margin
+	intMap["delay"] = state.CarouselSeconds
+
+	repo.rdr.RenderTemplate(w, r, "carouselcontent.gohtml", &models.TemplateData{
+		StringMap: carouselState.Photo,
+		IntMap:    carouselState.Margin,
+	})
 }

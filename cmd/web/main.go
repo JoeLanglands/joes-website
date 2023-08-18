@@ -7,6 +7,7 @@ import (
 
 	"github.com/JoeLanglands/joes-website/internal/config"
 	"github.com/JoeLanglands/joes-website/internal/handlers"
+	"github.com/JoeLanglands/joes-website/internal/state"
 )
 
 var cfg config.SiteConfig
@@ -28,11 +29,19 @@ func main() {
 		},
 	})
 
+	carouselChan := make(chan state.CarouselState)
 	msgChan := make(chan []byte, 5)
+	reqState := make(chan struct{})
+	defer close(msgChan)
+	defer close(carouselChan)
+	defer close(reqState)
 
 	cfg.Logger = slog.New(jsonHandler)
 	cfg.Msg = msgChan
+	cfg.CarouselState = carouselChan
+	cfg.RequestState = reqState
 
+	state.Carouselhandler(carouselChan, reqState)
 	listenForMessages(&cfg)
 
 	repo := handlers.NewRepo(&cfg)

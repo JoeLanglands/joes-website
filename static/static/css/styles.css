@@ -6,13 +6,13 @@
     padding-right: 1.5rem;
 }
 
-.j-title {
+.j-navbar-title {
     color: #54e484;
     font-size: 3rem;
     font-family: monospace;
 }
 
-.j-title:hover {
+.j-navbar-title:hover {
     color: #ff7b00;
     text-decoration: none;
 }
@@ -54,6 +54,35 @@
 
 .j-icon:hover {
     color: #f92aad;
+}
+
+.j-title {
+    font-size: 2rem;
+}
+
+.j-text-body {
+    width: 80%;
+}
+
+.j-carousel-body {
+    /* this needs some stying or some shit */
+    /* don't know why this needs to be a thing thing */
+    border: 10px;
+}
+
+.j-carousel-image {
+    align-items: center;
+    justify-content: center;
+    float: center;
+    scale: 75%;
+}
+
+.j-carousel-header.message-header {
+    background-color: #b141f1;
+}
+
+.j-carousel-blur {
+    filter: blur(6px);
 }
 
 /* 

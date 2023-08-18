@@ -29,6 +29,7 @@ func getRouter() http.Handler {
 	mux.Get("/home", handlers.Repo.Home)
 	mux.Get("/about", handlers.Repo.About)
 	mux.Get("/projects", handlers.Repo.Projects)
+	mux.Get("/carousel", handlers.Repo.Carousel)
 
 	return mux
 }
