@@ -5,9 +5,7 @@ import (
 	"time"
 )
 
-const (
-	CarouselTick = 5
-)
+var CarouselPeriod = 15
 
 const (
 	PhotoOne   = "photo_one"
@@ -37,9 +35,13 @@ func initState() CarouselState {
 	}
 }
 
+func SetCarouselPeriod(period int) {
+	CarouselPeriod = period
+}
+
 func Carouselhandler(stateChan chan<- CarouselState, request <-chan struct{}) {
 	state := initState()
-	ticker := time.NewTicker(CarouselTick * time.Second)
+	ticker := time.NewTicker(time.Duration(CarouselPeriod) * time.Second)
 
 	go func() {
 		for {
@@ -54,6 +56,7 @@ func Carouselhandler(stateChan chan<- CarouselState, request <-chan struct{}) {
 }
 
 func permutateCarousel(state *CarouselState) {
+	// I don't even think this lock is needed but it's here for safety
 	state.mu.Lock()
 	defer state.mu.Unlock()
 

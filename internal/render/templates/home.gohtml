@@ -1,10 +1,43 @@
 <div class="content  mt-6">
     <h1 class="has-text-centered j-title">Hello!</h1>
+    <section class="j-text-body container section" id="abstract">
+        I am Joe Langlands, a software developer based in sunny Manchester. Welcome to my website!
+    </section>
+    <hr class="j-content-divider" />
     <section class="j-text-body container section">
-        I am Joe Langlands, a software developer based in sunny Manchester.
+        <p>
+            This website is mainly a place for me to play with new technologies and experiment with different ideas.
+            Lately I've been drawn to htmx and wanted to give building a server/router using Go's fantastic <code
+                class="j-inline-code">net/http</code> package a go.
+            I also wanted to try and build a website that can be compiled into a single binary and run on a server
+            without any dependencies, including
+            all of the images, css files and html templates.
+            This is achieved using the <code class="j-inline-code">embed</code> package.
+        </p>
+        <p>
+            Check out the carousel below that is permutated by the server! If you load up two instances of this website,
+            you should see the same sequence of images offset by the time difference between loading up both instances.
+            It's not practical at all, but I thought it would be cool to use some goroutines, channels and the power of
+            htmx to make it whilst also
+            managing some global application state on the server side.
+        </p>
     </section>
     {{ template "carousel" . }}
     <section class="j-text-body container section">
-        I am Joe Langlands, a software developer based in sunny Manchester.
+        <p>
+            This website also serves as a test bed for a router that I am writing to learn more about how http servers
+            work. Who knows,
+            this may become a separate project in the future! Although it must be said that there are many great Go
+            based routers out there today,
+            two of my favourite being <a class="j-link" href="https://github.com/go-chi/chi">chi</a> and <a
+                class="j-link" href="https://github.com/julienschmidt/httprouter">julienschmidt/httprouter</a>.
+        </p>
+        <p>
+            What is this god awful colour scheme you ask? Well they are directly from the VSCode theme I use, which is a
+            <em>very slightly</em> modified
+            version of the 80's synthwave inspired masterpiece <a class="j-link"
+                href="https://marketplace.visualstudio.com/items?itemName=VictoriaDrake.kabukicho">Kabukichō</a>
+            by Victoria Drake.
+        </p>
     </section>
 </div>

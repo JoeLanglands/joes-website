@@ -1,3 +1,7 @@
+#abstract {
+    width: 65%;
+}
+
 .j-navbar {
     background-color: #2b1d38;
     padding-top: 1.5rem;
@@ -83,6 +87,15 @@
 
 .j-carousel-blur {
     filter: blur(6px);
+}
+
+.j-content-divider {
+    background-color: #b141f1;
+}
+
+.j-inline-code {
+    background-color: #ffffff;
+    color: #ff7b00;
 }
 
 /* 
