@@ -28,7 +28,12 @@ func NewHandlers(r *Repository) {
 }
 
 func (repo *Repository) Root(w http.ResponseWriter, r *http.Request) {
-	repo.rdr.RenderTemplateWithComponents(w, r, "base.gohtml", nil)
+	repo.cfg.AddUniqueVisitor(r.RemoteAddr)
+	repo.rdr.RenderTemplateWithComponents(w, r, "base.gohtml", &models.TemplateData{
+		IntMap: map[string]int{
+			"unique_visitors": repo.cfg.GetUniqueVisitors(),
+		},
+	})
 }
 
 func (repo *Repository) Home(w http.ResponseWriter, r *http.Request) {

@@ -3,10 +3,14 @@
     <div class="content has-text-centered j-footer-text">
         <div class="mb-1">
             <strong class="j-footer-text">Written in
-                <a class="j-link" href="https://htmx.org/">htmx</a> &
-                <a class="j-link" href="https://go.dev/">Go</a>
+                <a class="j-link" href="https://go.dev/">Go</a> &
+                <a class="j-link" href="https://htmx.org/">htmx</a>
                 with <a class="j-link" href="https://bulma.io/">Bulma</a> for styles.
             </strong>
+        </div>
+        <div>
+            <!-- This is temp right now, not sure where to put site stats etc... -->
+            Unique visitors: {{index .IntMap "unique_visitors"}}
         </div>
         <div>
             <a class="j-icon mr-3" href="https://github.com/JoeLanglands">

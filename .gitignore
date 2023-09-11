@@ -11,6 +11,9 @@
 # production
 /build
 
+# config
+site_config.json
+
 # air
 tmp/
 

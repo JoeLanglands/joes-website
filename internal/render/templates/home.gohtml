@@ -17,9 +17,8 @@
         <p>
             Check out the carousel below that is permutated by the server! If you load up two instances of this website,
             you should see the same sequence of images offset by the time difference between loading up both instances.
-            It's not practical at all, but I thought it would be cool to use some goroutines, channels and the power of
-            htmx to make it whilst also
-            managing some global application state on the server side.
+            It's not practical at all, but I thought it would be cool to use some goroutines, channels and dead simple
+            htmx to make it work by managing some global application state on the server side.
         </p>
     </section>
     {{ template "carousel" . }}
@@ -33,7 +32,7 @@
                 class="j-link" href="https://github.com/julienschmidt/httprouter">julienschmidt/httprouter</a>.
         </p>
         <p>
-            What is this god awful colour scheme you ask? Well they are directly from the VSCode theme I use, which is a
+            What is this god awful colour scheme you ask? Well the palette is from the VSCode theme I use, which is a
             <em>very slightly</em> modified
             version of the 80's synthwave inspired masterpiece <a class="j-link"
                 href="https://marketplace.visualstudio.com/items?itemName=VictoriaDrake.kabukicho">Kabukichō</a>

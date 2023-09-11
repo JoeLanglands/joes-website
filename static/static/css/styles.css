@@ -70,8 +70,9 @@
 
 .j-carousel-body {
     /* this needs some stying or some shit */
-    /* don't know why this needs to be a thing thing */
+    /* don't know why this needs to be a thing */
     border: 10px;
+    background-color: white;
 }
 
 .j-carousel-image {

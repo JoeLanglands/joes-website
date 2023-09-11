@@ -1,11 +1,13 @@
 {{ define "carousel" }}
-<div class="message j-carousel">
-    <div class="message-header j-carousel-header">
+<div class="message">
+    <!-- 
+        Might do something with the header at some point and add buttons etc...
+        <div class="message-header j-carousel-header">
         <span>Carousel</span>
-        <!-- <button class="delete" aria-label="delete"> -->
+        <button class="delete" aria-label="delete">
         </div>
         </div></button>
-    </div>
+    </div> -->
     <div class="message-body j-carousel-body" >
         <div class="tile is-ancestor" hx-get="/carousel" hx-trigger="load" hx-swap="outerHTML">
             

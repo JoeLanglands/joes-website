@@ -4,13 +4,15 @@ import (
 	"log/slog"
 	"net/http"
 	"os"
+	"os/signal"
+	"syscall"
 
 	"github.com/JoeLanglands/joes-website/internal/config"
 	"github.com/JoeLanglands/joes-website/internal/handlers"
 	"github.com/JoeLanglands/joes-website/internal/state"
 )
 
-var cfg config.SiteConfig
+var cfg = config.LoadOrNewConfig()
 
 func main() {
 	jsonHandler := slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{
@@ -29,6 +31,15 @@ func main() {
 		},
 	})
 
+	sigExit := make(chan os.Signal)
+
+	signal.Notify(sigExit, syscall.SIGINT, syscall.SIGTERM)
+	go func() {
+		<-sigExit
+		cfg.SaveConfig()
+		os.Exit(0)
+	}()
+
 	carouselChan := make(chan state.CarouselState)
 	msgChan := make(chan []byte, 5)
 	reqState := make(chan struct{})
@@ -42,14 +53,14 @@ func main() {
 	cfg.RequestState = reqState
 
 	state.Carouselhandler(carouselChan, reqState)
-	listenForMessages(&cfg)
+	listenForMessages(cfg)
 
-	repo := handlers.NewRepo(&cfg)
+	repo := handlers.NewRepo(cfg)
 	handlers.NewHandlers(repo)
 
 	mux := getRouter()
 
-	err := http.ListenAndServe(":8080", mux)
+	err := http.ListenAndServe(":6969", mux)
 	if err != nil {
 		panic(err)
 	}
