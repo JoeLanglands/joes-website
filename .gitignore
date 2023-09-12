@@ -12,7 +12,7 @@
 /build
 
 # config
-site_config.json
+config.json
 
 # air
 tmp/
