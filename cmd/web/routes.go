@@ -18,7 +18,7 @@ func getStaticFS() http.FileSystem {
 }
 
 func getRouter() http.Handler {
-	mux := router.NewMux(cfg.Logger)
+	mux := router.NewMux()
 	fs := getStaticFS()
 
 	fileserver := NewFileServer(http.FileServer(fs))
