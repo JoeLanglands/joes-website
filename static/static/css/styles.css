@@ -91,7 +91,14 @@
 }
 
 .j-content-divider {
-    background-color: #b141f1;
+    border: 0.8rem solid;
+    border-image-slice: 1;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 0;
+    border-image-source: linear-gradient(to right, #b141f1, #ff7b00);
+    width: 15rem;
+    margin: auto;
 }
 
 .j-inline-code {
