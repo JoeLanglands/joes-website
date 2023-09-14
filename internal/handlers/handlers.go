@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"net/http"
+	"time"
 
 	"github.com/JoeLanglands/joes-website/internal/config"
 	"github.com/JoeLanglands/joes-website/internal/models"
@@ -45,7 +46,13 @@ func (repo *Repository) Home(w http.ResponseWriter, r *http.Request) {
 }
 
 func (repo *Repository) About(w http.ResponseWriter, r *http.Request) {
-	repo.rdr.RenderTemplate(w, r, "about.gohtml", nil)
+	birthday := time.Date(1992, time.August, 11, 8, 0, 0, 0, time.FixedZone("GMT", 1))
+	age := time.Since(birthday)
+	repo.rdr.RenderTemplate(w, r, "about.gohtml", &models.TemplateData{
+		IntMap: map[string]int{
+			"age": int(age.Seconds()),
+		},
+	})
 }
 
 func (repo *Repository) Projects(w http.ResponseWriter, r *http.Request) {
