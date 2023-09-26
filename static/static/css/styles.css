@@ -85,6 +85,19 @@
     scale: 75%;
 }
 
+#carousel.htmx-swapping {
+    opacity: 0;
+}
+
+#carousel.htmx-added {
+    opacity: 0;
+}
+
+#carousel {
+    opacity: 1;
+    transition: opacity 1s ease-in-out;
+}
+
 .j-carousel-header.message-header {
     background-color: #b141f1;
 }
