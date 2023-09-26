@@ -1,5 +1,21 @@
+pre {
+    all: unset;
+}
+
 #abstract {
     width: 65%;
+}
+
+.j-card-icon {
+    padding-right: 0.5rem;
+}
+
+.j-card-divider {
+    align-self: center;
+    padding: auto;
+    position: inherit;
+    width: auto;
+    background-color: #6071cc;
 }
 
 .j-navbar {

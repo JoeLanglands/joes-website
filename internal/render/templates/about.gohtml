@@ -1,30 +1,43 @@
 <div class="content mt-6">
     <h1 class="has-text-centered j-title">About me</h1>
-        <div class="columns">
-            <div class="column is-one-quarter">
-                <div class="card">
-                    <div class="card-image">
-                        <figure class="image is-4by3" padding-top="1rem">
-                            <img src="/static/images/me_two.png" alt="Me having a cocktail">
-                        </figure>
-                    </div>
-                    <div class="card-content">
-                        <div class="media">
-                            <div class="media-content">
-                                <p class="title is-4">Joe Langlands</p>
-                                <hr>
-                                <p class="subtitle is-6"><i class="lni lni-world"></i>  Manchester, UK</p>
-                                <p class="subtitle is-6"><i class="lni lni-cake"></i> {{index .IntMap "age"}} seconds old</p>
-                                <p class="subtitle is-6"><i class="lni lni-graduation"></i> Physics, University of Sheffield</p>
-                            </div>
+    <div class="columns">
+        <div class="column is-2">
+
+        </div>
+        <div class="column is-3">
+            <div class="card">
+                <div class="card-image">
+                    <figure class="image is-4by3">
+                        <img src="/static/images/me_two.png" alt="Me having a cocktail">
+                    </figure>
+                </div>
+                <div class="card-content">
+                    <div class="media">
+                        <div class="media-left">
                         </div>
+                        <div class="media-content">
+                            <p class="title is-4">Joe Langlands</p>
+                        </div>
+                    </div>
+                    <div class="content">
+                        <hr class="j-card-divider">
+                        <p class="subtitle is-6"><i class="lni lni-world j-card-icon"></i>Manchester, UK</p>
+                        <p class="subtitle is-6"><i class="lni lni-cake j-card-icon"></i> >{{index .IntMap "age"}} seconds old</p>
+                        <p class="subtitle is-6"><i class="lni lni-graduation j-card-icon"></i>Physics, University of Sheffield</p>
+                        <p class="subtitle is-6"><i class="lni lni-briefcase-alt j-card-icon"></i><a class="j-link" href="https://www.versori.com/">Versori</a></p>
                     </div>
                 </div>
             </div>
-            <div class="column content is-one-quarter">
-                hello from the other column
+        </div>
+        <div class="column content is-4">
+            <p>
+                Hello there!
+            </p>
+            <p>
+                This is another paragraph
+            </p>
 
-            </div>
         </div>
     </div>
+</div>
 </div>
