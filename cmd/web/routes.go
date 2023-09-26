@@ -3,6 +3,7 @@ package main
 import (
 	"io/fs"
 	"net/http"
+	"net/http/pprof"
 
 	"github.com/JoeLanglands/joes-website/internal/handlers"
 	"github.com/JoeLanglands/joes-website/internal/router"
@@ -31,6 +32,13 @@ func getRouter() http.Handler {
 	mux.Get("/projects", handlers.Repo.Projects)
 	mux.Get("/carousel", handlers.Repo.Carousel)
 	mux.Get("/title", handlers.Repo.Title)
+
+	// add pprof routes
+	mux.Get("/debug/pprof/", pprof.Index)
+	mux.Get("/debug/pprof/cmdline", pprof.Cmdline)
+	mux.Get("/debug/pprof/profile", pprof.Profile)
+	mux.Get("/debug/pprof/symbol", pprof.Symbol)
+	mux.Get("/debug/pprof/trace", pprof.Trace)
 
 	return mux
 }
