@@ -43,16 +43,23 @@ func main() {
 	carouselChan := make(chan state.CarouselState)
 	msgChan := make(chan []byte, 5)
 	reqState := make(chan struct{})
+	reqColour := make(chan struct{})
+	titleColourChan := make(chan string)
 	defer close(msgChan)
 	defer close(carouselChan)
 	defer close(reqState)
+	defer close(titleColourChan)
+	defer close(reqColour)
 
 	cfg.Logger = slog.New(jsonHandler)
 	cfg.Msg = msgChan
 	cfg.CarouselState = carouselChan
 	cfg.RequestState = reqState
+	cfg.RequestColour = reqColour
+	cfg.TitleColourState = titleColourChan
 
 	state.Carouselhandler(carouselChan, reqState)
+	state.TitleColourHandler(titleColourChan, reqColour)
 	listenForMessages(cfg)
 
 	repo := handlers.NewRepo(cfg)

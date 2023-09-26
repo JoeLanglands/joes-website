@@ -14,13 +14,15 @@ const (
 )
 
 type SiteConfig struct {
-	InProduction   bool                     `json:"in_production"`
-	CarouselPeriod int                      `json:"carousel_period"`
-	Logger         *slog.Logger             `json:"-"`
-	Msg            chan []byte              `json:"-"`
-	CarouselState  chan state.CarouselState `json:"-"`
-	RequestState   chan struct{}            `json:"-"`
-	UniqueVisitors map[string]struct{}      `json:"unique_visitors"`
+	InProduction     bool                     `json:"in_production"`
+	CarouselPeriod   int                      `json:"carousel_period"`
+	Logger           *slog.Logger             `json:"-"`
+	Msg              chan []byte              `json:"-"`
+	CarouselState    chan state.CarouselState `json:"-"`
+	TitleColourState chan string              `json:"-"`
+	RequestState     chan struct{}            `json:"-"`
+	RequestColour    chan struct{}            `json:"-"`
+	UniqueVisitors   map[string]struct{}      `json:"unique_visitors"`
 }
 
 // NewConfig returns a (pointer to) new default SiteConfig

@@ -12,20 +12,22 @@
 }
 
 .j-navbar-title {
-    color: #54e484;
+    transition: all 5s ease-in;
     font-size: 3rem;
     font-family: monospace;
 }
 
 .j-navbar-title:hover {
-    color: #ff7b00;
-    text-decoration: none;
+    text-decoration-thickness: 0.2rem;
+    text-decoration-line: underline;
+    text-decoration-style: wavy;
+    text-underline-offset: 0.7rem;
 }
 
 .j-footer {
     background-color: #2b1d38;
     padding-top: 1.5rem;
-    padding-bottom: 1.5rem;   
+    padding-bottom: 1.5rem;
 }
 
 .j-footer-text {

@@ -37,6 +37,18 @@ func (repo *Repository) Root(w http.ResponseWriter, r *http.Request) {
 	})
 }
 
+func (repo *Repository) Title(w http.ResponseWriter, r *http.Request) {
+	repo.cfg.RequestColour <- struct{}{}
+
+	colour := <-repo.cfg.TitleColourState
+
+	repo.rdr.RenderTemplate(w, r, "title.gohtml", &models.TemplateData{
+		StringMap: map[string]string{
+			"colour": colour,
+		},
+	})
+}
+
 func (repo *Repository) Home(w http.ResponseWriter, r *http.Request) {
 	if r.Method != http.MethodGet {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
