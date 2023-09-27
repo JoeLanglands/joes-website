@@ -2,6 +2,10 @@ pre {
     all: unset;
 }
 
+body {
+    font-family: 'Go-Regular', sans-serif;
+}
+
 #abstract {
     width: 65%;
 }
@@ -25,12 +29,13 @@ pre {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
     align-items: center;
+    /* width: 100%; */
 }
 
 .j-navbar-title {
     transition: all 5s ease-in;
     font-size: 3rem;
-    font-family: monospace;
+    font-family: 'Go-Mono', monospace;
 }
 
 .j-navbar-title:hover {
@@ -51,19 +56,17 @@ pre {
 }
 
 .j-level {
-    color: #ff7b00;
-    font-size: 1.5rem;
-    font-family: monospace;
+    width: 80%;
+    margin: auto;
 }
 
 .j-level-item {
-    color: #54e484;
-    padding-right: 1.5rem;
-    padding-left: 1.5rem;
+    font-size: 2rem;
+    font-family: 'Go-Mono', monospace;
 }
 
 .j-link {
-    color: #6071cc;
+    color: #b141f1;
 }
 
 .j-link:hover {
@@ -129,7 +132,7 @@ pre {
     border-right: 0;
     border-bottom: 0;
     border-image-source: linear-gradient(to right, #b141f1, #ff7b00);
-    width: 15rem;
+    width: 60%;
     margin: auto;
 }
 
@@ -147,3 +150,25 @@ pre {
 "retrobluedark": #6071cc
 "retrobluebright": #58c7e0
 */
+
+/* Font definitions */
+
+@font-face {
+    font-family: "go-mono";
+    src: url("/static/fonts/Go-Mono.ttf");
+}
+
+@font-face {
+    font-family: "go-regular";
+    src: url("/static/fonts/Go-Regular.ttf");
+}
+
+@font-face {
+    font-family: "go-italic";
+    src: url("/static/fonts/Go-Italic.ttf");
+}
+
+@font-face {
+    font-family: "go-bold";
+    src: url("/static/fonts/Go-Bold.ttf");
+}
