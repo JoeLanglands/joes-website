@@ -1,13 +1,14 @@
 {{ define "navbar"}}
-<nav class="navbar level j-level m-auto j-navbar" role="navigation" aria-label="main navigation">
-    <div class="container">
+<nav class="navbar m-auto j-navbar" role="navigation" aria-label="main navigation">
+    <div class="container level j-level">
         <div class="level-item j-level-item">
             <figure class="image is-128x128">
                 <img class="is-rounded" src="/static/images/me.jpg" alt="Me">
             </figure>
         </div>
-        <div class="level-item j-level-item">
-            <h1 id="main-title" class="j-navbar-title" hx-swap="outerHTML" hx-get="/title" hx-trigger="every 5s" style="color: #54e484;">
+        <div class="level-item">
+            <h1 id="main-title" class="j-navbar-title" hx-swap="outerHTML" hx-get="/title" hx-trigger="every 5s"
+                style="color: #54e484;">
                 &lt;Joe Langlands/&gt;
             </h1>
         </div>
@@ -26,6 +27,11 @@
                 Projects
             </a>
         </div>
+        <!-- <div class="level-item j-level-item" hx-get="/projects" hx-target="#content">
+            <a class="j-link">
+                Blog
+            </a>
+        </div> -->
     </div>
 </nav>
 {{end}}
