@@ -12,6 +12,7 @@
             I also wanted to try and build a website that can be compiled into a single binary and run on a server
             without any dependencies, including
             all of the images, css files and html templates using the <code class="j-inline-code">embed</code> package.
+            And I didn't need to write <em>any</em> JavaScript at all!
         </p>    
         <p class="block">
             It must be noted though that design/creativity is not my strong point so excuse the rather bland look of
@@ -21,10 +22,10 @@
             the individual html components, view the source and give it a try!
         </p>
         <p class="block">
-            Check out the carousel below that is permutated by the server! If you load up two instances of this website,
-            you should see the same sequence of images offset by the time difference between loading up both instances.
-            It's not practical at all, but I thought it would be cool to use some goroutines, channels and dead simple
-            htmx to make it work by managing some global application state on the server side.
+            I'll probably add many wacky creations to this website like the carousel below that is permutated by the server. 
+            If you load up two instances of this website, you should see the same sequence of images offset by the time
+            difference between loading up both instances. It's not practical at all, but I thought it would be cool to use
+            some goroutines, channels and dead simple htmx to make it work by managing some global application state on the server.
         </p>
     </section>
     {{ template "carousel" . }}
