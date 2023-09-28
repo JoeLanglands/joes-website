@@ -11,6 +11,12 @@
 # production
 /build
 
+# config
+config.json
+
+# air
+tmp/
+
 # misc
 .DS_Store
 .env.local

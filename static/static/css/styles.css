@@ -1,0 +1,174 @@
+pre {
+    all: unset;
+}
+
+body {
+    font-family: 'Go-Regular', sans-serif;
+}
+
+#abstract {
+    width: 65%;
+}
+
+.j-card-icon {
+    padding-right: 0.5rem;
+}
+
+.j-card-divider {
+    align-self: center;
+    padding: auto;
+    position: inherit;
+    width: auto;
+    background-color: #6071cc;
+}
+
+.j-navbar {
+    background-color: #2b1d38;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    align-items: center;
+    /* width: 100%; */
+}
+
+.j-navbar-title {
+    transition: all 5s ease-in;
+    font-size: 3rem;
+    font-family: 'Go-Mono', monospace;
+}
+
+.j-navbar-title:hover {
+    text-decoration-thickness: 0.2rem;
+    text-decoration-line: underline;
+    text-decoration-style: wavy;
+    text-underline-offset: 0.7rem;
+}
+
+.j-footer {
+    background-color: #2b1d38;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+}
+
+.j-footer-text {
+    color: #54e484;
+}
+
+.j-level {
+    width: 80%;
+    margin: auto;
+}
+
+.j-level-item {
+    font-size: 2rem;
+    font-family: 'Go-Mono', monospace;
+}
+
+.j-link {
+    color: #b141f1;
+}
+
+.j-link:hover {
+    color: #58c7e0;
+}
+
+.j-icon {
+    color: #ff7b00;
+    font-size: 28px;
+}
+
+.j-icon:hover {
+    color: #f92aad;
+}
+
+.j-title {
+    font-size: 2rem;
+}
+
+.j-text-body {
+    width: 80%;
+}
+
+.j-carousel-body {
+    /* this needs some stying or some shit */
+    /* don't know why this needs to be a thing */
+    border: 10px;
+    background-color: white;
+}
+
+.j-carousel-image {
+    align-items: center;
+    justify-content: center;
+    float: center;
+    scale: 75%;
+}
+
+#carousel.htmx-swapping {
+    opacity: 0;
+}
+
+#carousel.htmx-added {
+    opacity: 0;
+}
+
+#carousel {
+    opacity: 1;
+    transition: opacity 1s ease-in-out;
+}
+
+.j-carousel-header.message-header {
+    background-color: #b141f1;
+}
+
+.j-carousel-blur {
+    filter: blur(6px);
+}
+
+.j-content-divider {
+    border: 0.8rem solid;
+    border-image-slice: 1;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 0;
+    border-image-source: linear-gradient(to right, #b141f1, #ff7b00);
+    width: 60%;
+    margin: auto;
+}
+
+.j-inline-code {
+    background-color: #ffffff;
+    color: #ff7b00;
+}
+
+/* 
+"retropurplebright": #b141f1
+"retropurpledark": #2b1d38
+"retropinkbright": #f92aad
+"retrogreenbright": #54e484
+"retroorangebright": #ff7b00
+"retrobluedark": #6071cc
+"retrobluebright": #58c7e0
+*/
+
+/* Font definitions */
+
+@font-face {
+    font-family: "go-mono";
+    src: url("/static/fonts/Go-Mono.ttf");
+}
+
+@font-face {
+    font-family: "go-regular";
+    src: url("/static/fonts/Go-Regular.ttf");
+}
+
+@font-face {
+    font-family: "go-italic";
+    src: url("/static/fonts/Go-Italic.ttf");
+}
+
+@font-face {
+    font-family: "go-bold";
+    src: url("/static/fonts/Go-Bold.ttf");
+}
