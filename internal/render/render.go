@@ -40,12 +40,11 @@ func (rdr *Renderer) RenderTemplateWithComponents(w http.ResponseWriter, r *http
 		return err
 	}
 
-	n, err := buf.WriteTo(w)
+	_, err = buf.WriteTo(w)
 	if err != nil {
 		rdr.cfg.Logger.Error("error writing template to response writer", "error", err)
 		return err
 	}
-	rdr.cfg.Logger.Info("rendered template", "name", name, "bytes", n)
 
 	return nil
 }
@@ -68,12 +67,11 @@ func (rdr *Renderer) RenderTemplate(w http.ResponseWriter, r *http.Request, name
 		return err
 	}
 
-	n, err := buf.WriteTo(w)
+	_, err = buf.WriteTo(w)
 	if err != nil {
 		rdr.cfg.Logger.Error("error writing template to response writer", "error", err)
 		return err
 	}
-	rdr.cfg.Logger.Info("rendered template", "name", name, "bytes", n)
 
 	return nil
 }

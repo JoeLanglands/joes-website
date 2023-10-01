@@ -30,6 +30,7 @@ func NewHandlers(r *Repository) {
 
 func (repo *Repository) Root(w http.ResponseWriter, r *http.Request) {
 	repo.cfg.AddUniqueVisitor(r.RemoteAddr)
+	repo.cfg.Logger.Info("served root page")
 	repo.rdr.RenderTemplateWithComponents(w, r, "base.gohtml", &models.TemplateData{
 		IntMap: map[string]int{
 			"unique_visitors": repo.cfg.GetUniqueVisitors(),
@@ -54,12 +55,14 @@ func (repo *Repository) Home(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
 	}
+	repo.cfg.Logger.Info("served home page")
 	repo.rdr.RenderTemplateWithComponents(w, r, "home.gohtml", nil)
 }
 
 func (repo *Repository) About(w http.ResponseWriter, r *http.Request) {
 	birthday := time.Date(1992, time.August, 11, 8, 0, 0, 0, time.FixedZone("GMT", 1))
 	age := time.Since(birthday)
+	repo.cfg.Logger.Info("served about page")
 	repo.rdr.RenderTemplate(w, r, "about.gohtml", &models.TemplateData{
 		IntMap: map[string]int{
 			"age": int(age.Seconds()),
@@ -68,6 +71,7 @@ func (repo *Repository) About(w http.ResponseWriter, r *http.Request) {
 }
 
 func (repo *Repository) Projects(w http.ResponseWriter, r *http.Request) {
+	repo.cfg.Logger.Info("served projects page")
 	repo.rdr.RenderTemplate(w, r, "projects.gohtml", nil)
 }
 
