@@ -103,7 +103,7 @@ func (repo *Repository) Inspect(w http.ResponseWriter, r *http.Request) {
 	}
 	r.Body.Close()
 
-	var data map[string]interface{}
+	var data any
 
 	err = json.Unmarshal(body, &data)
 	if err != nil {
