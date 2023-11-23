@@ -32,6 +32,7 @@ func getRouter() http.Handler {
 	mux.Get("/projects", handlers.Repo.Projects)
 	mux.Get("/carousel", handlers.Repo.Carousel)
 	mux.Get("/title", handlers.Repo.Title)
+	mux.Post("/utils/inspect", handlers.Repo.Inspect)
 
 	// add pprof routes
 	mux.Get("/debug/pprof/", pprof.Index)

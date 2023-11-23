@@ -1,6 +1,8 @@
 package handlers
 
 import (
+	"encoding/json"
+	"io"
 	"net/http"
 	"time"
 
@@ -88,4 +90,27 @@ func (repo *Repository) Carousel(w http.ResponseWriter, r *http.Request) {
 		StringMap: carouselState.Photo,
 		IntMap:    carouselState.Margin,
 	})
+}
+
+func (repo *Repository) Inspect(w http.ResponseWriter, r *http.Request) {
+	repo.cfg.Logger.Info("echo-ing request body")
+
+	body, err := io.ReadAll(r.Body)
+	if err != nil {
+		repo.cfg.Logger.Error("error reading request body", err)
+		http.Error(w, "error reading request body", http.StatusInternalServerError)
+		return
+	}
+	r.Body.Close()
+
+	var data map[string]interface{}
+
+	err = json.Unmarshal(body, &data)
+	if err != nil {
+		repo.cfg.Logger.Error("error unmarshalling request body", err)
+		http.Error(w, "error unmarshalling request body", http.StatusInternalServerError)
+		return
+	}
+
+	repo.cfg.Logger.Info("showing request body", "data", data)
 }
