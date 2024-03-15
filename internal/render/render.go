@@ -22,13 +22,13 @@ func NewRenderer(cfg *config.SiteConfig) Renderer {
 	return Renderer{cfg: cfg}
 }
 
-// RenderTemplateWithComponents renders the template given by name and along with all *.component.gohtml files
+// RenderTemplateWithComponents renders the template given by name and along with all *.component.html files
 func (rdr *Renderer) RenderTemplateWithComponents(w http.ResponseWriter, r *http.Request, name string, data any) error {
 	buf := new(bytes.Buffer)
 
 	nameGlob := fmt.Sprintf("templates/%s", name)
 
-	tmpl, err := template.ParseFS(fs, nameGlob, "templates/*.component.gohtml")
+	tmpl, err := template.ParseFS(fs, nameGlob, "templates/*.component.html")
 	if err != nil {
 		rdr.cfg.Logger.Error("error parsing template", "error", err)
 		return err
