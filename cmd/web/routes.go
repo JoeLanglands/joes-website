@@ -26,20 +26,19 @@ func getRouter() http.Handler {
 
 	mux.Handle("/static/", fileserver)
 
-	mux.Get("/", handlers.Repo.Root)
-	mux.Get("/home", handlers.Repo.Home)
-	mux.Get("/about", handlers.Repo.About)
-	mux.Get("/projects", handlers.Repo.Projects)
-	mux.Get("/carousel", handlers.Repo.Carousel)
-	mux.Get("/title", handlers.Repo.Title)
-	mux.Post("/utils/inspect", handlers.Repo.Inspect)
+	mux.Get("/", handlers.Repo.Root())
+	mux.Get("/home", router.Use(router.OnlyServeHTMX, handlers.Repo.Home()))
+	mux.Get("/about", router.Use(router.OnlyServeHTMX, handlers.Repo.About()))
+	mux.Get("/projects", router.Use(router.OnlyServeHTMX, handlers.Repo.Projects()))
+	mux.Get("/carousel", router.Use(router.OnlyServeHTMX, handlers.Repo.Carousel()))
+	mux.Get("/title", router.Use(router.OnlyServeHTMX, handlers.Repo.Title()))
 
 	// add pprof routes
-	mux.Get("/debug/pprof/", pprof.Index)
-	mux.Get("/debug/pprof/cmdline", pprof.Cmdline)
-	mux.Get("/debug/pprof/profile", pprof.Profile)
-	mux.Get("/debug/pprof/symbol", pprof.Symbol)
-	mux.Get("/debug/pprof/trace", pprof.Trace)
+	mux.GetFunc("/debug/pprof/", pprof.Index)
+	mux.GetFunc("/debug/pprof/cmdline", pprof.Cmdline)
+	mux.GetFunc("/debug/pprof/profile", pprof.Profile)
+	mux.GetFunc("/debug/pprof/symbol", pprof.Symbol)
+	mux.GetFunc("/debug/pprof/trace", pprof.Trace)
 
 	return mux
 }

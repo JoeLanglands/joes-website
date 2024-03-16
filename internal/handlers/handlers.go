@@ -1,8 +1,6 @@
 package handlers
 
 import (
-	"encoding/json"
-	"io"
 	"net/http"
 	"time"
 
@@ -30,87 +28,76 @@ func NewHandlers(r *Repository) {
 	Repo = r
 }
 
-func (repo *Repository) Root(w http.ResponseWriter, r *http.Request) {
-	repo.cfg.AddUniqueVisitor(r.RemoteAddr)
-	repo.cfg.Logger.Info("served root page")
-	repo.rdr.RenderTemplateWithComponents(w, r, "base.html", &models.TemplateData{
-		IntMap: map[string]int{
-			"unique_visitors": repo.cfg.GetUniqueVisitors(),
-		},
+func (repo *Repository) Root() http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		repo.cfg.AddUniqueVisitor(r.RemoteAddr)
+		repo.cfg.Logger.Info("served root page")
+		repo.rdr.RenderTemplateWithComponents(w, r, "base.html", &models.TemplateData{
+			IntMap: map[string]int{
+				"unique_visitors": repo.cfg.GetUniqueVisitors(),
+			},
+		})
 	})
 }
 
-func (repo *Repository) Title(w http.ResponseWriter, r *http.Request) {
-	repo.cfg.RequestColour <- struct{}{}
+func (repo *Repository) Title() http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		repo.cfg.RequestColour <- struct{}{}
 
-	colour := <-repo.cfg.TitleColourState
+		colour := <-repo.cfg.TitleColourState
 
-	repo.rdr.RenderTemplate(w, r, "title.html", &models.TemplateData{
-		StringMap: map[string]string{
-			"colour": colour,
-		},
+		repo.rdr.RenderTemplate(w, r, "title.html", &models.TemplateData{
+			StringMap: map[string]string{
+				"colour": colour,
+			},
+		})
 	})
 }
 
-func (repo *Repository) Home(w http.ResponseWriter, r *http.Request) {
-	if r.Method != http.MethodGet {
-		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
-		return
-	}
-	repo.cfg.Logger.Info("served home page")
-	repo.rdr.RenderTemplateWithComponents(w, r, "home.html", nil)
-}
-
-func (repo *Repository) About(w http.ResponseWriter, r *http.Request) {
-	birthday := time.Date(1992, time.August, 11, 8, 0, 0, 0, time.FixedZone("GMT", 1))
-	age := time.Since(birthday)
-	repo.cfg.Logger.Info("served about page")
-	repo.rdr.RenderTemplate(w, r, "about.html", &models.TemplateData{
-		IntMap: map[string]int{
-			"age": int(age.Seconds()),
-		},
+func (repo *Repository) Home() http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.Method != http.MethodGet {
+			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
+			return
+		}
+		repo.cfg.Logger.Info("served home page")
+		repo.rdr.RenderTemplateWithComponents(w, r, "home.html", nil)
 	})
 }
 
-func (repo *Repository) Projects(w http.ResponseWriter, r *http.Request) {
-	repo.cfg.Logger.Info("served projects page")
-	repo.rdr.RenderTemplate(w, r, "projects.html", nil)
-}
-
-func (repo *Repository) Carousel(w http.ResponseWriter, r *http.Request) {
-	repo.cfg.RequestState <- struct{}{}
-
-	// copying the sync.RWMutex here but we're not touching it after here so maybe its ok?
-	carouselState := <-repo.cfg.CarouselState
-
-	intMap := carouselState.Margin
-	intMap["delay"] = state.CarouselPeriod
-
-	repo.rdr.RenderTemplate(w, r, "carouselcontent.html", &models.TemplateData{
-		StringMap: carouselState.Photo,
-		IntMap:    carouselState.Margin,
+func (repo *Repository) About() http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		birthday := time.Date(1992, time.August, 11, 8, 0, 0, 0, time.FixedZone("GMT", 1))
+		age := time.Since(birthday)
+		repo.cfg.Logger.Info("served about page")
+		repo.rdr.RenderTemplate(w, r, "about.html", &models.TemplateData{
+			IntMap: map[string]int{
+				"age": int(age.Seconds()),
+			},
+		})
 	})
 }
 
-func (repo *Repository) Inspect(w http.ResponseWriter, r *http.Request) {
-	repo.cfg.Logger.Info("echo-ing request body")
+func (repo *Repository) Projects() http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		repo.cfg.Logger.Info("served projects page")
+		repo.rdr.RenderTemplate(w, r, "projects.html", nil)
+	})
+}
 
-	body, err := io.ReadAll(r.Body)
-	if err != nil {
-		repo.cfg.Logger.Error("error reading request body", err)
-		http.Error(w, "error reading request body", http.StatusInternalServerError)
-		return
-	}
-	r.Body.Close()
+func (repo *Repository) Carousel() http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		repo.cfg.RequestState <- struct{}{}
 
-	var data any
+		// copying the sync.RWMutex here but we're not touching it after here so maybe its ok?
+		carouselState := <-repo.cfg.CarouselState
 
-	err = json.Unmarshal(body, &data)
-	if err != nil {
-		repo.cfg.Logger.Error("error unmarshalling request body", err)
-		http.Error(w, "error unmarshalling request body", http.StatusInternalServerError)
-		return
-	}
+		intMap := carouselState.Margin
+		intMap["delay"] = state.CarouselPeriod
 
-	repo.cfg.Logger.Info("showing request body", "data", data)
+		repo.rdr.RenderTemplate(w, r, "carouselcontent.html", &models.TemplateData{
+			StringMap: carouselState.Photo,
+			IntMap:    carouselState.Margin,
+		})
+	})
 }
