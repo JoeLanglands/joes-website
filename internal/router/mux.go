@@ -1,37 +1,41 @@
 package router
 
 import (
+	"context"
+	"log/slog"
 	"net/http"
 )
-
-type Middleware func(http.Handler) http.Handler
 
 type Mux struct {
 	middlewares []Middleware
 	mux         *http.ServeMux
+	logger      *slog.Logger
 }
 
-func NewMux() *Mux {
-	return &Mux{
+type MuxOption func(m *Mux)
+
+type LoggerKey struct{}
+
+func WithLogger(l *slog.Logger) func(*Mux) {
+	return func(m *Mux) {
+		m.logger = l
+	}
+}
+
+func NewMux(opts ...MuxOption) *Mux {
+	base := &Mux{
 		mux: http.NewServeMux(),
 	}
+
+	for _, opt := range opts {
+		opt(base)
+	}
+
+	return base
 }
 
 func (m *Mux) Handle(pattern string, handler http.Handler) {
 	m.mux.Handle(pattern, handler)
-}
-
-// AddMiddleware adds a middleware to the mux. These middleware will be
-// executed in the order they are added and are called for every request served.
-// Global middleware are be called before route specific middleware.
-func (m *Mux) AddGlobalMiddleware(middleware Middleware) {
-	m.middlewares = append(m.middlewares, middleware)
-}
-
-// Use adds a middleware to the Handler chain so a set of middleware can be
-// applied to a single route.
-func Use(mw Middleware, handler http.Handler) http.Handler {
-	return mw(handler)
 }
 
 // Get registers a handler function for the pattern and only the GET method.
@@ -42,7 +46,7 @@ func (m *Mux) Get(pattern string, handler http.Handler) {
 			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 			return
 		}
-		m.applyGlobalMiddlewares(handler).ServeHTTP(w, r)
+		handler.ServeHTTP(w, r)
 	})
 }
 
@@ -54,7 +58,7 @@ func (m *Mux) Post(pattern string, handler http.Handler) {
 			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 			return
 		}
-		m.applyGlobalMiddlewares(handler).ServeHTTP(w, r)
+		handler.ServeHTTP(w, r)
 	})
 }
 
@@ -66,7 +70,7 @@ func (m *Mux) Put(pattern string, handler http.Handler) {
 			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 			return
 		}
-		m.applyGlobalMiddlewares(handler).ServeHTTP(w, r)
+		handler.ServeHTTP(w, r)
 	})
 }
 
@@ -78,7 +82,7 @@ func (m *Mux) Delete(pattern string, handler http.Handler) {
 			http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 			return
 		}
-		m.applyGlobalMiddlewares(handler).ServeHTTP(w, r)
+		handler.ServeHTTP(w, r)
 	})
 }
 
@@ -102,13 +106,8 @@ func (m *Mux) DeleteFunc(pattern string, handlerFunc http.HandlerFunc) {
 	m.Delete(pattern, http.HandlerFunc(handlerFunc))
 }
 
-func (m *Mux) applyGlobalMiddlewares(handler http.Handler) http.Handler {
-	for _, m := range m.middlewares {
-		handler = m(handler)
-	}
-	return handler
-}
-
 func (m *Mux) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	m.mux.ServeHTTP(w, r)
+	ctx := context.WithValue(r.Context(), LoggerKey{}, m.logger)
+	req := r.WithContext(ctx)
+	m.mux.ServeHTTP(w, req)
 }

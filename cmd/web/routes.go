@@ -2,6 +2,7 @@ package main
 
 import (
 	"io/fs"
+	"log/slog"
 	"net/http"
 	"net/http/pprof"
 
@@ -18,18 +19,20 @@ func getStaticFS() http.FileSystem {
 	return http.FS(f)
 }
 
-func getRouter() http.Handler {
-	mux := router.NewMux()
-	fs := getStaticFS()
+func getRouter(log *slog.Logger) http.Handler {
+	mux := router.NewMux(router.WithLogger(log))
+	fsys := getStaticFS()
 
-	fileserver := NewFileServer(http.FileServer(fs))
+	fileserver := NewFileServer(http.FileServer(fsys))
 
 	mux.Handle("/static/", fileserver)
 
-	mux.Get("/", handlers.Repo.Root())
-	mux.Get("/home", router.Use(router.OnlyServeHTMX, handlers.Repo.Home()))
-	mux.Get("/about", router.Use(router.OnlyServeHTMX, handlers.Repo.About()))
-	mux.Get("/projects", router.Use(router.OnlyServeHTMX, handlers.Repo.Projects()))
+	stack := router.UseStack(router.OnlyServeHTMX, router.RequestLogging)
+
+	mux.Get("/", router.Use(router.RequestLogging, handlers.Repo.Root()))
+	mux.Get("/home", stack(handlers.Repo.Home()))
+	mux.Get("/about", stack(handlers.Repo.About()))
+	mux.Get("/projects", stack(handlers.Repo.Projects()))
 	mux.Get("/carousel", router.Use(router.OnlyServeHTMX, handlers.Repo.Carousel()))
 	mux.Get("/title", router.Use(router.OnlyServeHTMX, handlers.Repo.Title()))
 

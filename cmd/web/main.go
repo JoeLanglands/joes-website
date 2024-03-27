@@ -65,7 +65,7 @@ func main() {
 	repo := handlers.NewRepo(cfg)
 	handlers.NewHandlers(repo)
 
-	mux := getRouter()
+	mux := getRouter(cfg.Logger)
 
 	err := http.ListenAndServe(":6969", mux)
 	if err != nil {
