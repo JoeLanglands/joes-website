@@ -27,12 +27,12 @@ func getRouter(log *slog.Logger) http.Handler {
 
 	mux.Handle("/static/", fileserver)
 
-	stack := router.UseStack(router.OnlyServeHTMX, router.RequestLogging)
+	logHtmxStack := router.UseStack(router.OnlyServeHTMX, router.RequestLogging)
 
 	mux.Get("/", router.Use(router.RequestLogging, handlers.Repo.Root()))
-	mux.Get("/home", stack(handlers.Repo.Home()))
-	mux.Get("/about", stack(handlers.Repo.About()))
-	mux.Get("/projects", stack(handlers.Repo.Projects()))
+	mux.Get("/home", logHtmxStack(handlers.Repo.Home()))
+	mux.Get("/about", logHtmxStack(handlers.Repo.About()))
+	mux.Get("/projects", logHtmxStack(handlers.Repo.Projects()))
 	mux.Get("/carousel", router.Use(router.OnlyServeHTMX, handlers.Repo.Carousel()))
 	mux.Get("/title", router.Use(router.OnlyServeHTMX, handlers.Repo.Title()))
 

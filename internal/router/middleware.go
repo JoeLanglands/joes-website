@@ -32,7 +32,7 @@ func OnlyServeHTMX(next http.Handler) http.Handler {
 			next.ServeHTTP(w, r)
 			return
 		}
-		http.Error(w, "Method not allowed", http.StatusTeapot)
+		http.Error(w, "Wait, you're not HTMX!?", http.StatusTeapot)
 	})
 }
 
@@ -44,6 +44,6 @@ func RequestLogging(next http.Handler) http.Handler {
 		}
 		start := time.Now()
 		next.ServeHTTP(w, r)
-		logger.Info("Request handled", "path", r.RequestURI, "handled in", time.Since(start).String())
+		logger.Info("Request handled", "path", r.RequestURI, "method", r.Method, "request time", time.Since(start).String())
 	})
 }

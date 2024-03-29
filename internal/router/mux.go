@@ -7,9 +7,8 @@ import (
 )
 
 type Mux struct {
-	middlewares []Middleware
-	mux         *http.ServeMux
-	logger      *slog.Logger
+	mux    *http.ServeMux
+	logger *slog.Logger
 }
 
 type MuxOption func(m *Mux)
@@ -88,22 +87,22 @@ func (m *Mux) Delete(pattern string, handler http.Handler) {
 
 // GetFunc registers a handler function for the pattern and only the GET method.
 func (m *Mux) GetFunc(pattern string, handlerFunc http.HandlerFunc) {
-	m.Get(pattern, http.HandlerFunc(handlerFunc))
+	m.Get(pattern, handlerFunc)
 }
 
 // PostFunc registers a handler function for the pattern and only the POST method.
 func (m *Mux) PostFunc(pattern string, handlerFunc http.HandlerFunc) {
-	m.Post(pattern, http.HandlerFunc(handlerFunc))
+	m.Post(pattern, handlerFunc)
 }
 
 // PutFunc registers a handler function for the pattern and only the PUT method.
 func (m *Mux) PutFunc(pattern string, handlerFunc http.HandlerFunc) {
-	m.Put(pattern, http.HandlerFunc(handlerFunc))
+	m.Put(pattern, handlerFunc)
 }
 
 // DeleteFunc registers a handler function for the pattern and only the DELETE method.
 func (m *Mux) DeleteFunc(pattern string, handlerFunc http.HandlerFunc) {
-	m.Delete(pattern, http.HandlerFunc(handlerFunc))
+	m.Delete(pattern, handlerFunc)
 }
 
 func (m *Mux) ServeHTTP(w http.ResponseWriter, r *http.Request) {

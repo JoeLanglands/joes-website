@@ -31,11 +31,14 @@ func NewHandlers(r *Repository) {
 func (repo *Repository) Root() http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		repo.cfg.AddUniqueVisitor(r.RemoteAddr)
-		repo.rdr.RenderTemplateWithComponents(w, r, "base.html", &models.TemplateData{
+		err := repo.rdr.RenderTemplateWithComponents(w, r, "base.html", &models.TemplateData{
 			IntMap: map[string]int{
 				"unique_visitors": repo.cfg.GetUniqueVisitors(),
 			},
 		})
+		if err != nil {
+			http.Error(w, "unable to render template :(", http.StatusInternalServerError)
+		}
 	})
 }
 
@@ -45,11 +48,14 @@ func (repo *Repository) Title() http.Handler {
 
 		colour := <-repo.cfg.TitleColourState
 
-		repo.rdr.RenderTemplate(w, r, "title.html", &models.TemplateData{
+		err := repo.rdr.RenderTemplate(w, r, "title.html", &models.TemplateData{
 			StringMap: map[string]string{
 				"colour": colour,
 			},
 		})
+		if err != nil {
+			http.Error(w, "unable to render template :(", http.StatusInternalServerError)
+		}
 	})
 }
 
@@ -60,7 +66,10 @@ func (repo *Repository) Home() http.Handler {
 			return
 		}
 
-		repo.rdr.RenderTemplateWithComponents(w, r, "home.html", nil)
+		err := repo.rdr.RenderTemplateWithComponents(w, r, "home.html", nil)
+		if err != nil {
+			http.Error(w, "unable to render template :(", http.StatusInternalServerError)
+		}
 	})
 }
 
@@ -69,17 +78,23 @@ func (repo *Repository) About() http.Handler {
 		birthday := time.Date(1992, time.August, 11, 8, 0, 0, 0, time.FixedZone("GMT", 1))
 		age := time.Since(birthday)
 
-		repo.rdr.RenderTemplate(w, r, "about.html", &models.TemplateData{
+		err := repo.rdr.RenderTemplate(w, r, "about.html", &models.TemplateData{
 			IntMap: map[string]int{
 				"age": int(age.Seconds()),
 			},
 		})
+		if err != nil {
+			http.Error(w, "unable to render template :(", http.StatusInternalServerError)
+		}
 	})
 }
 
 func (repo *Repository) Projects() http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		repo.rdr.RenderTemplate(w, r, "projects.html", nil)
+		err := repo.rdr.RenderTemplate(w, r, "projects.html", nil)
+		if err != nil {
+			http.Error(w, "unable to render template :(", http.StatusInternalServerError)
+		}
 	})
 }
 
@@ -87,15 +102,18 @@ func (repo *Repository) Carousel() http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		repo.cfg.RequestState <- struct{}{}
 
-		// copying the sync.RWMutex here but we're not touching it after here so maybe its ok?
+		// copying the sync.RWMutex here, but we're not touching it after here so maybe it's ok?
 		carouselState := <-repo.cfg.CarouselState
 
 		intMap := carouselState.Margin
 		intMap["delay"] = state.CarouselPeriod
 
-		repo.rdr.RenderTemplate(w, r, "carouselcontent.html", &models.TemplateData{
+		err := repo.rdr.RenderTemplate(w, r, "carouselcontent.html", &models.TemplateData{
 			StringMap: carouselState.Photo,
 			IntMap:    carouselState.Margin,
 		})
+		if err != nil {
+			http.Error(w, "unable to render template :(", http.StatusInternalServerError)
+		}
 	})
 }
