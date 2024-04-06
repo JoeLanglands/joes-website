@@ -1,4 +1,4 @@
-package router
+package jmux
 
 import (
 	"context"
@@ -7,18 +7,21 @@ import (
 )
 
 type Mux struct {
-	mux    *http.ServeMux
-	logger *slog.Logger
+	mux             *http.ServeMux
+	logger          *slog.Logger
+	notFoundHandler http.Handler
 }
-
-type MuxOption func(m *Mux)
 
 type LoggerKey struct{}
 
-func WithLogger(l *slog.Logger) func(*Mux) {
-	return func(m *Mux) {
-		m.logger = l
+// GetLogger returns the slog.Logger from the request context.
+// This can be used to access the logger instance injected into the request
+// context by the WithLogger option. If
+func GetLogger(r *http.Request) *slog.Logger {
+	if v := r.Context().Value(LoggerKey{}); v != nil {
+		return v.(*slog.Logger)
 	}
+	return slog.Default()
 }
 
 func NewMux(opts ...MuxOption) *Mux {
@@ -105,8 +108,27 @@ func (m *Mux) DeleteFunc(pattern string, handlerFunc http.HandlerFunc) {
 	m.Delete(pattern, handlerFunc)
 }
 
+// NotFoundHandler registers a handler for when no routes match the request.
+// This is useful for returning a 404 page or similar.
+// Alternative to using WithNotFoundHandler option.
+func (m *Mux) NotFoundHandler(h http.Handler) {
+	m.notFoundHandler = h
+}
+
 func (m *Mux) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	ctx := context.WithValue(r.Context(), LoggerKey{}, m.logger)
-	req := r.WithContext(ctx)
-	m.mux.ServeHTTP(w, req)
+	req := r
+	if m.logger != nil {
+		ctx := context.WithValue(r.Context(), LoggerKey{}, m.logger)
+		req = r.WithContext(ctx)
+	}
+	h, p := m.mux.Handler(req)
+
+	m.logger.Info("Request", "handler", h, "pattern", p)
+
+	if h == http.NotFoundHandler() {
+		m.logger.Info("Not found handler", "code", http.StatusNotFound)
+	}
+
+	h.ServeHTTP(w, req)
+	//m.mux.ServeHTTP(w, req)
 }
