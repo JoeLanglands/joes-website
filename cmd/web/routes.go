@@ -28,14 +28,16 @@ func getRouter(log *slog.Logger) http.Handler {
 
 	mux.Handle("/static/", fileserver)
 
-	logHtmxStack := jmux.UseStack(middlewares.OnlyServeHTMX, middlewares.RequestLogging)
+	onlyServeHtmxMw := middlewares.OnlyServeHTMXHandler(handlers.Repo.OnlyHTMXHandler())
+
+	logHtmxStack := jmux.UseStack(onlyServeHtmxMw, middlewares.RequestLogging)
 
 	mux.Get("/{$}", jmux.Use(middlewares.RequestLogging, handlers.Repo.Root()))
 	mux.Get("/home", logHtmxStack(handlers.Repo.Home()))
 	mux.Get("/about", logHtmxStack(handlers.Repo.About()))
 	mux.Get("/projects", logHtmxStack(handlers.Repo.Projects()))
-	mux.Get("/carousel", jmux.Use(middlewares.OnlyServeHTMX, handlers.Repo.Carousel()))
-	mux.Get("/title", jmux.Use(middlewares.OnlyServeHTMX, handlers.Repo.Title()))
+	mux.Get("/carousel", jmux.Use(onlyServeHtmxMw, handlers.Repo.Carousel()))
+	mux.Get("/title", jmux.Use(onlyServeHtmxMw, handlers.Repo.Title()))
 
 	// add pprof routes
 	mux.GetFunc("/debug/pprof/", pprof.Index)

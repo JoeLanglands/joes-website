@@ -126,3 +126,12 @@ func (repo *Repository) NotFound() http.Handler {
 		}
 	})
 }
+
+func (repo *Repository) OnlyHTMXHandler() http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		err := repo.rdr.RenderTemplate(w, r, "htmxonly.html", nil)
+		if err != nil {
+			http.Error(w, "unable to render template :(", http.StatusInternalServerError)
+		}
+	})
+}
