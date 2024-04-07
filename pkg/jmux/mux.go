@@ -17,7 +17,8 @@ type LoggerKey struct{}
 
 // GetLogger returns the slog.Logger from the request context.
 // This can be used to access the logger instance injected into the request
-// context by the WithLogger option. If
+// context by the WithLogger option. If no logger is found, the default slog.Logger
+// is returned.
 func GetLogger(r *http.Request) *slog.Logger {
 	if v := r.Context().Value(LoggerKey{}); v != nil {
 		return v.(*slog.Logger)

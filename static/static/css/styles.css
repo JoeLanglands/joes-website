@@ -16,7 +16,6 @@ body {
 
 .j-card-divider {
     align-self: center;
-    padding: auto;
     position: inherit;
     width: auto;
     background-color: #6071cc;
@@ -29,8 +28,6 @@ body {
     padding-left: 1.5rem;
     padding-right: 1.5rem;
     align-items: center;
-    position: sticky;
-    /* width: 100%; */
 }
 
 .j-navbar-title {
@@ -91,6 +88,11 @@ body {
     width: 80%;
 }
 
+.j-image-inverse:hover {
+    -webkit-filter: invert(1);
+    filter: invert(1);
+}
+
 .j-carousel-body {
     /* this needs some stying or some shit */
     /* don't know why this needs to be a thing */
@@ -101,7 +103,6 @@ body {
 .j-carousel-image {
     align-items: center;
     justify-content: center;
-    float: center;
     scale: 75%;
 }
 
@@ -140,6 +141,12 @@ body {
 .j-inline-code {
     background-color: #ffffff;
     color: #ff7b00;
+}
+
+.j-centre-block {
+    display: inline-block;
+    text-align: center;
+    margin: auto;
 }
 
 /* 
