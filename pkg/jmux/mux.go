@@ -99,7 +99,7 @@ func (m *Mux) DeleteFunc(pattern string, handlerFunc func(w http.ResponseWriter,
 }
 
 // NotFoundHandler registers a handler for when no routes match the request.
-// This is useful for returning a 404 page or similar.
+// This is useful for returning a 404 page or similar. The http.StatusNotFound code will be sent with this handler.
 // Alternative to using WithNotFoundHandler option on server creation.
 func (m *Mux) NotFoundHandler(h http.Handler) {
 	m.notFoundHandler = h
@@ -114,6 +114,7 @@ func (m *Mux) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	h, p := m.mux.Handler(req)
 	if p == "" && m.notFoundHandler != nil {
+		w.WriteHeader(http.StatusNotFound)
 		m.notFoundHandler.ServeHTTP(w, req)
 		return
 	}
