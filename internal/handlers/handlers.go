@@ -117,3 +117,12 @@ func (repo *Repository) Carousel() http.Handler {
 		}
 	})
 }
+
+func (repo *Repository) NotFound() http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		err := repo.rdr.RenderTemplate(w, r, "notfound.html", nil)
+		if err != nil {
+			http.Error(w, "unable to render template :(", http.StatusInternalServerError)
+		}
+	})
+}

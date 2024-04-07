@@ -44,5 +44,7 @@ func getRouter(log *slog.Logger) http.Handler {
 	mux.GetFunc("/debug/pprof/symbol", pprof.Symbol)
 	mux.GetFunc("/debug/pprof/trace", pprof.Trace)
 
+	mux.NotFoundHandler(handlers.Repo.NotFound())
+
 	return mux
 }
